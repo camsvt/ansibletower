@@ -1,22 +1,25 @@
----
-- hosts: all
-  become: yes
-  tasks:
-   - name: Install apache on Ubuntu
-     apt: name=apache2 state=latest update_cache=yes
-     when: ansible_os_family == "Debian"
-   
-   - name: Start apache on Ubuntu
-     service: name=apache2 state=started enabled=yes
-     when: ansible_os_family == "Debian"
-     
-   - name: Start apache on CentOs
-     yum: name=httpd state=latest update_cache=yes
-     when: ansible_os_family == "RedHat"
+--- 
+- 
+  become: true
+  hosts: all
+  tasks: 
+    - 
+      apt: "name=apache2 state=latest update_cache=yes"
+      name: "Install apache on Ubuntu"
+      when: "ansible_os_family == \"Debian\""
+    - 
+      name: "Start apache on Ubuntu"
+      service: "name=apache2 state=started enabled=yes"
+      when: "ansible_os_family == \"Debian\""
+    - 
+      name: "Start apache on CentOs"
+      when: "ansible_os_family == \"RedHat\""
+      yum: "name=httpd state=latest update_cache=yes"
+    - 
+      name: "start apache on centos"
+      service: "name=httpd enabled=yes state=started"
+      when: "ansible_os_family == \"RedHat\""
 
-   - name: start apache on centos
-     service: name=httpd enabled=yes state=started
-     when: ansible_os_family == "RedHat"
      
      
   
